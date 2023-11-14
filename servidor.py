@@ -11,7 +11,7 @@ from threading import Thread
 
 lista_clientes = [];
 
-class Cliente_criado():
+class Cliente_criado():  #classe de definição do cliente so o basico
     def __init__(self,nome):
         self.nome = nome;
         
@@ -20,7 +20,7 @@ class Cliente_criado():
         
 
 
-class ServidorAtendimento:
+class ServidorAtendimento:  #a maior parte daqui eu peguei do git do professor nao faz pergunta dificil nao
     def __init__(self, endereco_servidor="0.0.0.0", porta_servidor=3213, max_conexoes=5):
         # Procedimento de criação do socket e configuração
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -40,7 +40,7 @@ class ServidorAtendimento:
 
     def implementacaoThreadCliente(self, enderecoDoCliente, socketParaCliente):
         retries = 3
-        socketParaCliente.settimeout(10) # timout de 10 segundos
+        socketParaCliente.settimeout(30) # timout de 10 segundos
 
         while True:
             try:
@@ -106,19 +106,29 @@ class ServidorAtendimento:
 
 
 
-def novoHandler(self, mensagem_decodificada):
+def novoHandler(self, mensagem_decodificada): #defini as açoes q o servidor toma dependendo da msg q recebe do cliente
     resposta = ""
     global lista_clientes;
-    if(mensagem_decodificada["operação"] == 0):
+    if(mensagem_decodificada["operação"] == 0): #operação 0 encerra conexao(costuma ter um delay pra realmente encerrar)
         resposta = "conexção encerrada"
         self.socket.close();
-    if(mensagem_decodificada["operação"] == 1):
-        resposta = "cliente cadastrado"
-        novo_cliente = Cliente_criado(mensagem_decodificada["nome"])
-        lista_clientes.append(novo_cliente)
-        for cliente in lista_clientes:
-            print (cliente.nome)
-
+    if(mensagem_decodificada["operação"] == 1): #operação 1 cria cliente novo(por enquanto cliente so tem nome, da pra colocar senha depois)
+        if(mensagem_decodificada["nome"] not in lista_clientes):
+            resposta = "cliente cadastrado"
+            novo_cliente = Cliente_criado(mensagem_decodificada["nome"])
+            lista_clientes.append(novo_cliente.nome)
+            for cliente in lista_clientes:
+                print (cliente) #ta printando todos os clientes so pra ficar mais facil de ver oq ta rolando
+        else:
+            resposta = "cliente já cadastrado"
+        
+    
+    if(mensagem_decodificada["operação"] == 2):
+        if(mensagem_decodificada["nome"] not in lista_clientes):
+            resposta = mensagem_decodificada["nome"] + " cliente não cadastrado"
+            print(lista_clientes)
+        else:
+            resposta = "conectando..."
     return resposta
 
 # substitui handler padrão por novo
