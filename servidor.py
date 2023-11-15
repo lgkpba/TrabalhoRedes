@@ -108,10 +108,10 @@ class ServidorAtendimento:  #a maior parte daqui eu peguei do git do professor n
 def novoHandler(self, mensagem_decodificada): #defini as açoes q o servidor toma dependendo da msg q recebe do cliente
     resposta = ""
     global lista_clientes;
-    if(mensagem_decodificada["operação"] == 0): #operação 0 encerra conexao(costuma ter um delay pra realmente encerrar)
+    if(mensagem_decodificada["AÇÃO"] == 0): #operação 0 encerra conexao(costuma ter um delay pra realmente encerrar)
         resposta = "conexção encerrada"
         self.socket.close();
-    if(mensagem_decodificada["operação"] == 1): #operação 1 cria cliente novo(por enquanto cliente so tem nome, da pra colocar senha depois)
+    if(mensagem_decodificada["AÇÃO"] == 1): #operação 1 cria cliente novo(por enquanto cliente so tem nome, da pra colocar senha depois)
         if(mensagem_decodificada["nome"] not in lista_clientes):
             resposta = "cliente cadastrado"
             novo_cliente = Cliente_criado(mensagem_decodificada["nome"])
@@ -122,7 +122,7 @@ def novoHandler(self, mensagem_decodificada): #defini as açoes q o servidor tom
             resposta = "cliente já cadastrado"
         
     
-    if(mensagem_decodificada["operação"] == 2):
+    if(mensagem_decodificada["AÇÃO"] == 2):
         if(mensagem_decodificada["nome"] not in lista_clientes):
             resposta = mensagem_decodificada["nome"] + " cliente não cadastrado"
             print(lista_clientes)
