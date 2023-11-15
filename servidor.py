@@ -19,7 +19,6 @@ class Cliente_criado():
         self.nome = nome;
         
 
-
 class ServidorAtendimento:
     def __init__(self, endereco_servidor="0.0.0.0", porta_servidor=3213, max_conexoes=5):
         # Procedimento de criação do socket e configuração
@@ -109,10 +108,10 @@ class ServidorAtendimento:
 def novoHandler(self, mensagem_decodificada):
     resposta = ""
     global lista_clientes;
-    if(mensagem_decodificada["operação"] == 0):
+    if(mensagem_decodificada["AÇÃO"] == 0):
         resposta = "conexção encerrada"
         self.socket.close();
-    if(mensagem_decodificada["operação"] == 1):
+    if(mensagem_decodificada["AÇÃO"] == 1):
         resposta = "cliente cadastrado"
         novo_cliente = Cliente_criado(mensagem_decodificada["nome"])
         lista_clientes.append(novo_cliente)
@@ -127,4 +126,3 @@ ServidorAtendimento.handlerDeMensagem = novoHandler
 
 
 servidor = ServidorAtendimento()
-
