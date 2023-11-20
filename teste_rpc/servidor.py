@@ -4,20 +4,14 @@ import json
 import math
 
 # funcao stub seno
-
-
 def sen(x: float) -> str:
     return math.sin(x)
 
 # funcao stub cosseno
-
-
 def cos(x: float) -> str:
     return math.cos(x)
 
 # funcao stub tangente
-
-
 def tan(x: float) -> str:
     return math.tan(x)
 
@@ -27,7 +21,6 @@ funcoes = {"sen": sen,
            "cos": cos,
            "tan": tan
            }
-
 
 class Servidor:
     # localhost se comunica com a propria maquina, mudar para o endereço ip real na rede

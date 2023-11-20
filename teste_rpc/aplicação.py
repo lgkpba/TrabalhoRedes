@@ -4,8 +4,6 @@ import time
 import json
 
 # printa funcoes disponiveis
-
-
 def printFuncoes():
     sen = "sen(x) - retorna o valor (arredondado) do seno de x radianos (float), sendo x um número real (float)\n"
     cos = "cos(x) - retorna o valor (arredondado) do cosseno de x radianos (float), sendo x um número real (float)\n"
@@ -16,8 +14,6 @@ def printFuncoes():
     print(sen+cos+tan+info)
 
 # verifica se há os parentesis ou chaves do input estão fechados
-
-
 def loopCheckEntrada(en):
     count = 0
     for char in en:
@@ -30,8 +26,6 @@ def loopCheckEntrada(en):
     return (count == 0)
 
 # verifica a entrada, tratando os casos de inputs inválidos
-
-
 def verificaEntrada(en):
     if (en == "q" or en == "Q" or en == "F" or en == "f"):
         return en
@@ -56,8 +50,6 @@ def verificaEntrada(en):
 # funçoes stub - todas tentam se comunicar com o servidor atraves de pacotes json
 
 # funçao stub seno
-
-
 def sen(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -78,8 +70,6 @@ def sen(x: float) -> float:
     return resp
 
 # funçao stub cosseno - mesma coisa do seno
-
-
 def cos(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -126,8 +116,6 @@ def tan(x: float) -> float:
 funcoes = ["sen", "cos", "tan", "quit", "funcoes"]
 
 # funcao principal
-
-
 def main():
     printFuncoes()
     print(">>> ", end="")
