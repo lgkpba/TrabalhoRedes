@@ -4,15 +4,15 @@ import json
 import math
 
 # funcao stub seno
-def sen(x: float) -> str:
+def sen(x: float) -> float:
     return math.sin(x)
 
 # funcao stub cosseno
-def cos(x: float) -> str:
+def cos(x: float) -> float:
     return math.cos(x)
 
 # funcao stub tangente
-def tan(x: float) -> str:
+def tan(x: float) -> float:
     return math.tan(x)
 
 
