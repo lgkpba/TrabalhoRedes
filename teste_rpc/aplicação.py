@@ -53,7 +53,7 @@ def verificaEntrada(en):
 def sen(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect(('localhost', 4900))
+    socketCliente.connect(('192.168.0.22', 4900))
     # cria requisição
     rqst = {
         "nome": "sen",
@@ -61,7 +61,7 @@ def sen(x: float) -> float:
     }
     # converte requisição para json e converte para bytes
     rqstBytes = json.dumps(rqst).encode("utf-8")
-
+    
     socketCliente.send(rqstBytes)  # envia requisição
     respBytes = socketCliente.recv(256).decode(
         "utf-8")  # recebe resposta e converte
@@ -73,7 +73,7 @@ def sen(x: float) -> float:
 def cos(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect(('localhost', 4900))
+    socketCliente.connect(('192.168.0.22', 4900))
     # cria requisição
     rqst = {
         "nome": "sen",
@@ -95,7 +95,7 @@ def cos(x: float) -> float:
 def tan(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect(('localhost', 4900))
+    socketCliente.connect(('192.168.0.22', 4900))
     # cria requisição
     rqst = {
         "nome": "sen",
@@ -103,13 +103,35 @@ def tan(x: float) -> float:
     }
     # converte requisição para json e converte para bytes
     rqstBytes = json.dumps(rqst).encode("utf-8")
-
-    socketCliente.send(rqstBytes)  # envia requisição
-    respBytes = socketCliente.recv(256).decode(
-        "utf-8")  # recebe resposta e converte
-    resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
+    
+    socketCliente.settimeout(3)
+    tentativas = 0
+    resp = ""
+    
+    while(tentativas < 3):
+        tentativas += 1
+        try:
+            socketCliente.send(rqstBytes)  # envia requisição
+            respBytes = socketCliente.recv(256).decode(
+                "utf-8")  # recebe resposta e converte
+            resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
+            if(resp != ""):
+                break
+        except TimeoutError as e:  #sem resposta
+            pass
+        time.sleep(1)
+            
+    
+        
+        
+        
     socketCliente.close()
-    return resp
+    print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    if(resp != ""):
+        return resp
+    else:
+        return False
+    
 
 
 # variavel global lista com as funções possiveis
@@ -121,6 +143,7 @@ def main():
     print(">>> ", end="")
     while True:  # laço principal do programa
         en = verificaEntrada(input())
+        resposta = False
         if (not en):
             pass
         elif (en == "q" or en == "Q" or en[0:4] == "quit"):
@@ -129,9 +152,13 @@ def main():
             printFuncoes()
         else:  # bloco onde a aplicação tenta executar o input já tratado
             try:
-                print(eval(en))  # eval executa as funções stubs
+                resposta = eval(en)  # eval executa as funções stubs
             except Exception as e:
                 print(f"Error: {e}")
+            if(resposta == False):
+                print("servidor não está respondendo")
+            else:
+                print(resposta)
         print(">>> ", end="")
 
 

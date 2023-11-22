@@ -2,6 +2,7 @@
 import socket
 import json
 import math
+import time
 
 # funcao stub seno
 def sen(x: float) -> float:
@@ -22,21 +23,24 @@ funcoes = {"sen": sen,
            "tan": tan
            }
 
+
+
 class Servidor:
     # localhost se comunica com a propria maquina, mudar para o endereço ip real na rede
-    def __init__(self, endereco_servidor='localhost', porta_servidor=4900, max_conexoes=1):
+    def __init__(self, endereco_servidor='0.0.0.0', porta_servidor=4900, max_conexoes=1):
+        
         # cria e configura socket
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # endereço ip 'localhost' e porta 4900
         self.socket.bind((endereco_servidor, porta_servidor))
         # sem conexões simultâneas, servidor simples e humilde que aceita apenas um única conexão
         self.socket.listen(max_conexoes)
-
+        #print(socket.gethostbyname(socket.gethostname())) so pra pegar ip
         self.loopServidor()
-
+        
     def loopServidor(self):
         while True:
-            timeout = 30
+            timeout = 300
             self.socket.settimeout(timeout)  # define espera para conexão
             try:
                 # servidor aceita conexão - treeway handshake
@@ -59,10 +63,13 @@ class Servidor:
             respBytes = self.handler(rqst).encode("utf-8")  # processa resposta
             print(
                 f"Servidor enviou para cliente cliente {enderecoDoCliente} a mensagem: {respBytes.decode('utf-8')}")
+            
+            force_delay = 0
+            time.sleep(force_delay)  #testar o que acontece se a resposta atrasar
+            
             socketParaCliente.send(respBytes)  # envia resposta já em bytes
-            break  # !!!!!! Servidor temrmina após enviar resposta, arrumar dps
+            #break  # !!!!!! Servidor temrmina após enviar resposta, arrumar dps
 
-        self.socket.close()  # fecha socket após temrinar loop
 
     def handler(self, rqst):
         # pega nome e parametro do request
@@ -75,6 +82,7 @@ class Servidor:
             "chamada": f"{nome}({param})",
             "retorno": rtrn
         }
+        
         return json.dumps(resp)  # retorna resposta já convertida em json
 
 
