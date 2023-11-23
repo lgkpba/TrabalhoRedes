@@ -70,20 +70,17 @@ def sen(x: float) -> float:
         try:
             socketCliente.send(rqstBytes)  # envia requisição
             respBytes = socketCliente.recv(256).decode("utf-8")  # recebe resposta e converte
-            resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if (resp is not None):
+            resp = json.loads(respBytes)  # pega retorno da funcao
+            if ("retorno" in resp and "fim" in resp and resp["retorno"] is not None and resp["fim"] == "///"):
                 break
         except TimeoutError as e:  # sem resposta
             pass
         time.sleep(1)
 
-    fim = json.loads(respBytes)["fim"]
-    
-    if(fim == "///"):
-        socketCliente.close()
+    socketCliente.close()
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if (resp is not None):
-        return resp
+        return resp["retorno"]
     else:
         return False
 
@@ -111,21 +108,18 @@ def cos(x: float) -> float:
             socketCliente.send(rqstBytes)  # envia requisição
             respBytes = socketCliente.recv(256).decode(
                 "utf-8")  # recebe resposta e converte
-            resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if (resp is not None):
+            resp = json.loads(respBytes)  # pega retorno da funcao
+            if ("retorno" in resp and "fim" in resp and resp["retorno"] is not None and resp["fim"] == "///"):
                 break
         except TimeoutError as e:  # sem resposta
             pass
         time.sleep(1)
     
-    fim = json.loads(respBytes)["fim"]
-    
-    if(fim == "///"):
-        socketCliente.close()
+    socketCliente.close()
 
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if (resp is not None):
-        return resp
+        return resp["retorno"]
     else:
         return False
 
@@ -151,22 +145,18 @@ def tan(x: float) -> float:
         tentativas += 1
         try:
             socketCliente.send(rqstBytes)  # envia requisição
-            respBytes = socketCliente.recv(256).decode(
-                "utf-8")  # recebe resposta e converte
-            resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if (resp is not None):
+            respBytes = socketCliente.recv(256).decode("utf-8")  # recebe resposta e converte
+            resp = json.loads(respBytes)  # pega retorno da funcao
+            if ("retorno" in resp and "fim" in resp and resp["retorno"] is not None and resp["fim"] == "///"):
                 break
         except TimeoutError:  # sem resposta
             pass
         time.sleep(1)
 
-    fim = json.loads(respBytes)["fim"]
-    
-    if(fim == "///"):
-        socketCliente.close()
+    socketCliente.close()
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if (resp is not None):
-        return resp
+        return resp["retorno"]
     else:
         return False
 
