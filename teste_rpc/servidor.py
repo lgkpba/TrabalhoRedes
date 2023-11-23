@@ -58,18 +58,17 @@ class Servidor:
             print(
                 f"Servidor recebeu do cliente {enderecoDoCliente} a mensagem: {rqst}")
             
-            respFalsa = json.dumps("Resposta de mentira").encode("utf-8") # cira uma resposta a mais, apenas para testes
             respBytes = self.handler(rqst).encode("utf-8")  # processa resposta
             
             print(
-                    f"Servidor enviou para cliente cliente {enderecoDoCliente} a mensagem: {respBytes.decode('utf-8')}")
+                f"Servidor enviou para cliente cliente {enderecoDoCliente} a mensagem: {respBytes.decode('utf-8')}")
 
             # force_delay = 12
             # time.sleep(force_delay)  # testar o que acontece se a resposta atrasar
 
             socketParaCliente.send(respBytes) # envia resposta já em bytes
+            time.sleep(.1)
             socketParaCliente.send(respBytes) # envia a resposta mais uma vez, para testes
-            socketParaCliente.send(respFalsa) # envia resposta falsa para testes
 
             # break  # !!!!!! Servidor temrmina após enviar resposta, arrumar dps
 
@@ -89,9 +88,7 @@ class Servidor:
         resp = {
                "chamada": f"{nome}({param})",
                
-                "retorno": rtrn,
-
-                "fim": "///"
+                "retorno": rtrn
                }
         print(resp)
         return json.dumps(resp)  # retorna resposta já convertida em json

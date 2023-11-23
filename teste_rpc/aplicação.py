@@ -71,7 +71,7 @@ def sen(x: float) -> float:
             socketCliente.send(rqstBytes)  # envia requisição
             respBytes = socketCliente.recv(256).decode("utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)  # pega retorno da funcao
-            if ("retorno" in resp and "fim" in resp and resp["retorno"] is not None and resp["fim"] == "///"):
+            if("retorno" in resp and resp["retorno"] is not None):
                 break
         except TimeoutError as e:  # sem resposta
             pass
@@ -106,10 +106,9 @@ def cos(x: float) -> float:
         tentativas += 1
         try:
             socketCliente.send(rqstBytes)  # envia requisição
-            respBytes = socketCliente.recv(256).decode(
-                "utf-8")  # recebe resposta e converte
+            respBytes = socketCliente.recv(256).decode("utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)  # pega retorno da funcao
-            if ("retorno" in resp and "fim" in resp and resp["retorno"] is not None and resp["fim"] == "///"):
+            if("retorno" in resp and resp["retorno"] is not None):
                 break
         except TimeoutError as e:  # sem resposta
             pass
@@ -147,7 +146,7 @@ def tan(x: float) -> float:
             socketCliente.send(rqstBytes)  # envia requisição
             respBytes = socketCliente.recv(256).decode("utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)  # pega retorno da funcao
-            if ("retorno" in resp and "fim" in resp and resp["retorno"] is not None and resp["fim"] == "///"):
+            if("retorno" in resp and resp["retorno"] is not None):
                 break
         except TimeoutError:  # sem resposta
             pass
