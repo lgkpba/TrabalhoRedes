@@ -1,4 +1,3 @@
-
 import socket
 import time
 import json
@@ -64,7 +63,7 @@ def sen(x: float) -> float:
 
     socketCliente.settimeout(3)
     tentativas = 0
-    resp = ""
+    resp = None
 
     while (tentativas < 3):
         tentativas += 1
@@ -73,7 +72,7 @@ def sen(x: float) -> float:
             respBytes = socketCliente.recv(256).decode(
                 "utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if (resp != ""):
+            if (resp is not None):
                 break
         except TimeoutError as e:  # sem resposta
             pass
@@ -81,7 +80,7 @@ def sen(x: float) -> float:
 
     socketCliente.close()
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
-    if (resp != ""):
+    if (resp is not None):
         return resp
     else:
         return False
@@ -102,7 +101,7 @@ def cos(x: float) -> float:
 
     socketCliente.settimeout(3)
     tentativas = 0
-    resp = ""
+    resp = None
 
     while (tentativas < 3):
         tentativas += 1
@@ -111,7 +110,7 @@ def cos(x: float) -> float:
             respBytes = socketCliente.recv(256).decode(
                 "utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if (resp != ""):
+            if (resp is not None):
                 break
         except TimeoutError as e:  # sem resposta
             pass
@@ -119,7 +118,7 @@ def cos(x: float) -> float:
 
     socketCliente.close()
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
-    if (resp != ""):
+    if (resp is not None):
         return resp
     else:
         return False
@@ -140,7 +139,7 @@ def tan(x: float) -> float:
 
     socketCliente.settimeout(3)
     tentativas = 0
-    resp = ""
+    resp = None
 
     while (tentativas < 3):
         tentativas += 1
@@ -149,23 +148,20 @@ def tan(x: float) -> float:
             respBytes = socketCliente.recv(256).decode(
                 "utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if (resp != ""):
+            if (resp is not None):
                 break
         except TimeoutError:  # sem resposta
             pass
         time.sleep(1)
     socketCliente.close()
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
-    if (resp != ""):
+    if (resp is not None):
         return resp
     else:
         return False
 
 # variavel global lista com as funções possiveis
 funcoesLista = ["sen", "cos", "tan", "quit", "funcoes"]
-
-# variavel global com o valor do ip local
-ip_local = socket.gethostbyname(socket.gethostname())
 
 # funcao principal
 def main():
