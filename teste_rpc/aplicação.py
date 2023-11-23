@@ -62,12 +62,30 @@ def sen(x: float) -> float:
     # converte requisição para json e converte para bytes
     rqstBytes = json.dumps(rqst).encode("utf-8")
     
-    socketCliente.send(rqstBytes)  # envia requisição
-    respBytes = socketCliente.recv(256).decode(
-        "utf-8")  # recebe resposta e converte
-    resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
+    socketCliente.settimeout(3)
+    tentativas = 0
+    resp = ""
+    
+    while(tentativas < 3):
+        tentativas += 1
+        try:
+            socketCliente.send(rqstBytes)  # envia requisição
+            respBytes = socketCliente.recv(256).decode(
+                "utf-8")  # recebe resposta e converte
+            resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
+            if(resp != ""):
+                break
+        except TimeoutError as e:  #sem resposta
+            pass
+        time.sleep(1)
+            
+        
     socketCliente.close()
-    return resp
+    print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    if(resp != ""):
+        return resp
+    else:
+        return False
 
 # funçao stub cosseno - mesma coisa do seno
 def cos(x: float) -> float:
@@ -81,13 +99,33 @@ def cos(x: float) -> float:
     }
     # converte requisição para json e converte para bytes
     rqstBytes = json.dumps(rqst).encode("utf-8")
+    
+    
 
-    socketCliente.send(rqstBytes)  # envia requisição
-    respBytes = socketCliente.recv(256).decode(
-        "utf-8")  # recebe resposta e converte
-    resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
+    socketCliente.settimeout(3)
+    tentativas = 0
+    resp = ""
+    
+    while(tentativas < 3):
+        tentativas += 1
+        try:
+            socketCliente.send(rqstBytes)  # envia requisição
+            respBytes = socketCliente.recv(256).decode(
+                "utf-8")  # recebe resposta e converte
+            resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
+            if(resp != ""):
+                break
+        except TimeoutError as e:  #sem resposta
+            pass
+        time.sleep(1)
+            
+    
     socketCliente.close()
-    return resp
+    print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    if(resp != ""):
+        return resp
+    else:
+        return False
 
 # funcao stub tangente
 
