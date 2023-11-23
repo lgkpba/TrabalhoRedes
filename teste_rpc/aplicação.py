@@ -53,7 +53,7 @@ def verificaEntrada(en):
 def sen(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect((ip_local, 4900))
+    socketCliente.connect(('localhost', 4900))
     # cria requisição
     rqst = {
         "nome": "sen",
@@ -61,37 +61,37 @@ def sen(x: float) -> float:
     }
     # converte requisição para json e converte para bytes
     rqstBytes = json.dumps(rqst).encode("utf-8")
-    
+
     socketCliente.settimeout(3)
     tentativas = 0
     resp = ""
-    
-    while(tentativas < 3):
+
+    while (tentativas < 3):
         tentativas += 1
         try:
             socketCliente.send(rqstBytes)  # envia requisição
             respBytes = socketCliente.recv(256).decode(
                 "utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if(resp != ""):
+            if (resp != ""):
                 break
-        except TimeoutError as e:  #sem resposta
+        except TimeoutError as e:  # sem resposta
             pass
         time.sleep(1)
-            
-        
+
     socketCliente.close()
-    #print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
-    if(resp != ""):
+    # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    if (resp != ""):
         return resp
     else:
         return False
+
 
 # funçao stub cosseno - mesma coisa do seno
 def cos(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect((ip_local, 4900))
+    socketCliente.connect(('localhost', 4900))
     # cria requisição
     rqst = {
         "nome": "cos",
@@ -99,30 +99,27 @@ def cos(x: float) -> float:
     }
     # converte requisição para json e converte para bytes
     rqstBytes = json.dumps(rqst).encode("utf-8")
-    
-    
 
     socketCliente.settimeout(3)
     tentativas = 0
     resp = ""
-    
-    while(tentativas < 3):
+
+    while (tentativas < 3):
         tentativas += 1
         try:
             socketCliente.send(rqstBytes)  # envia requisição
             respBytes = socketCliente.recv(256).decode(
                 "utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if(resp != ""):
+            if (resp != ""):
                 break
-        except TimeoutError as e:  #sem resposta
+        except TimeoutError as e:  # sem resposta
             pass
         time.sleep(1)
-            
-    
+
     socketCliente.close()
-    #print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
-    if(resp != ""):
+    # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    if (resp != ""):
         return resp
     else:
         return False
@@ -132,7 +129,7 @@ def cos(x: float) -> float:
 def tan(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect((ip_local, 4900))
+    socketCliente.connect(('localhost', 4900))
     # cria requisição
     rqst = {
         "nome": "tan",
@@ -140,28 +137,26 @@ def tan(x: float) -> float:
     }
     # converte requisição para json e converte para bytes
     rqstBytes = json.dumps(rqst).encode("utf-8")
-    
+
     socketCliente.settimeout(3)
     tentativas = 0
     resp = ""
-    
-    while(tentativas < 3):
+
+    while (tentativas < 3):
         tentativas += 1
         try:
             socketCliente.send(rqstBytes)  # envia requisição
             respBytes = socketCliente.recv(256).decode(
                 "utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
-            if(resp != ""):
+            if (resp != ""):
                 break
-        except TimeoutError as e:  #sem resposta
+        except TimeoutError:  # sem resposta
             pass
         time.sleep(1)
-            
-    
     socketCliente.close()
-    #print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
-    if(resp != ""):
+    # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    if (resp != ""):
         return resp
     else:
         return False
@@ -189,11 +184,10 @@ def main():
             try:
                 resposta = eval(en)  # eval executa as funções stubs
             except Exception as e:
-                print(f"Error: {e}")
-            if(resposta == False):
-                print("servidor não está respondendo")
-            else:
-                print(resposta)
+                resposta = f"Error: {e}"
+            if (resposta == False and type(resposta) == bool): # respsta = 0.0 tb dava False
+                resposta = "Error: Servidor não está respondendo"
+            print(resposta)
         print(">>> ", end="")
 
 
