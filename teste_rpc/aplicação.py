@@ -81,7 +81,7 @@ def sen(x: float) -> float:
             
         
     socketCliente.close()
-    print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    #print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if(resp != ""):
         return resp
     else:
@@ -121,7 +121,7 @@ def cos(x: float) -> float:
             
     
     socketCliente.close()
-    print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    #print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if(resp != ""):
         return resp
     else:
@@ -164,7 +164,7 @@ def tan(x: float) -> float:
         
         
     socketCliente.close()
-    print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
+    #print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if(resp != ""):
         return resp
     else:
