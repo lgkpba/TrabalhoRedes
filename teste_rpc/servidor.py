@@ -64,11 +64,14 @@ class Servidor:
             print(
                 f"Servidor enviou para cliente cliente {enderecoDoCliente} a mensagem: {respBytes.decode('utf-8')}")
             
-            force_delay = 0
-            time.sleep(force_delay)  #testar o que acontece se a resposta atrasar
+            #force_delay = 0
+            #time.sleep(force_delay)  #testar o que acontece se a resposta atrasar
             
             socketParaCliente.send(respBytes)  # envia resposta já em bytes
+            
             #break  # !!!!!! Servidor temrmina após enviar resposta, arrumar dps
+            time.sleep(1)
+            socketParaCliente.send(respBytes)
 
 
     def handler(self, rqst):

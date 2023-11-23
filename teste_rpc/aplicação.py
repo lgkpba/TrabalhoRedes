@@ -94,7 +94,7 @@ def cos(x: float) -> float:
     socketCliente.connect(('192.168.0.22', 4900))
     # cria requisição
     rqst = {
-        "nome": "sen",
+        "nome": "cos",
         "parametro": x
     }
     # converte requisição para json e converte para bytes
@@ -136,7 +136,7 @@ def tan(x: float) -> float:
     socketCliente.connect(('192.168.0.22', 4900))
     # cria requisição
     rqst = {
-        "nome": "sen",
+        "nome": "tan",
         "parametro": x
     }
     # converte requisição para json e converte para bytes
