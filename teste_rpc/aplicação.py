@@ -8,7 +8,7 @@ def printFuncoes():
     sen = "sen(x) - retorna o valor (arredondado) do seno de x radianos (float), sendo x um número real (float)\n"
     cos = "cos(x) - retorna o valor (arredondado) do cosseno de x radianos (float), sendo x um número real (float)\n"
     tan = "tan(x) - retorna a valor (arredondado) da tangente de x radianos (flaot), sendo x número real (float)\n\n"
-    info = "digite 'funcoes()' para ver as funções disponíveis e 'quit()', para sair do programa"
+    info = "digite 'funcoes' para ver as funções disponíveis e 'quit', para sair do programa"
     print("\n\n" + "     RPC - FUNÇÕES TRIGONOMÉTRICAS     ".center(len(cos), "#") + "\n")
     print("Funções Disponíveis: ")
     print(sen+cos+tan+info)
@@ -17,9 +17,9 @@ def printFuncoes():
 def loopCheckEntrada(en):
     count = 0
     for char in en:
-        if char == '(' or char == "[":
+        if char == "(" or char == "[":
             count += 1
-        elif char == ')' or char == "]":
+        elif char == ")" or char == "]":
             count -= 1
         if count < 0:
             return False
@@ -27,7 +27,7 @@ def loopCheckEntrada(en):
 
 # verifica a entrada, tratando os casos de inputs inválidos
 def verificaEntrada(en):
-    if (en == "q" or en == "Q" or en == "F" or en == "f"):
+    if (en == "q" or en == "Q" or en == "F" or en == "f" or en == "funcoes"):
         return en
 
     elif (en == "" or en.isspace()):
@@ -37,7 +37,7 @@ def verificaEntrada(en):
         print("NameError: Função não reconhecida")
         return False
 
-    elif ((en.split("(")[0] not in funcoes)):
+    elif ((en.split("(")[0] not in funcoesLista)):
         print("NameError: Função não reconhecida")
         return False
 
@@ -53,7 +53,7 @@ def verificaEntrada(en):
 def sen(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect(('192.168.0.22', 4900))
+    socketCliente.connect((ip_local, 4900))
     # cria requisição
     rqst = {
         "nome": "sen",
@@ -91,7 +91,7 @@ def sen(x: float) -> float:
 def cos(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect(('192.168.0.22', 4900))
+    socketCliente.connect((ip_local, 4900))
     # cria requisição
     rqst = {
         "nome": "cos",
@@ -127,13 +127,12 @@ def cos(x: float) -> float:
     else:
         return False
 
+
 # funcao stub tangente
-
-
 def tan(x: float) -> float:
     # cria e configura socket
     socketCliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    socketCliente.connect(('192.168.0.22', 4900))
+    socketCliente.connect((ip_local, 4900))
     # cria requisição
     rqst = {
         "nome": "tan",
@@ -160,20 +159,18 @@ def tan(x: float) -> float:
         time.sleep(1)
             
     
-        
-        
-        
     socketCliente.close()
     #print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if(resp != ""):
         return resp
     else:
         return False
-    
-
 
 # variavel global lista com as funções possiveis
-funcoes = ["sen", "cos", "tan", "quit", "funcoes"]
+funcoesLista = ["sen", "cos", "tan", "quit", "funcoes"]
+
+# variavel global com o valor do ip local
+ip_local = socket.gethostbyname(socket.gethostname())
 
 # funcao principal
 def main():
@@ -184,9 +181,9 @@ def main():
         resposta = False
         if (not en):
             pass
-        elif (en == "q" or en == "Q" or en[0:4] == "quit"):
+        elif (en == "q" or en == "Q" or en == "quit"):
             break
-        elif (en == "f" or en == "F" or en[0:8] == "funcoes"):
+        elif (en == "f" or en == "F" or en == "funcoes"):
             printFuncoes()
         else:  # bloco onde a aplicação tenta executar o input já tratado
             try:

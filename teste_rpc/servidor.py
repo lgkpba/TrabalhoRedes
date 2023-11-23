@@ -27,15 +27,18 @@ funcoes = {"sen": sen,
 
 class Servidor:
     # localhost se comunica com a propria maquina, mudar para o endereço ip real na rede
-    def __init__(self, endereco_servidor='0.0.0.0', porta_servidor=4900, max_conexoes=1):
+    def __init__(self, endereco_servidor=None, porta_servidor=4900, max_conexoes=1):
         
+        # define o endereço como o ip local
+        if endereco_servidor is None:
+            endereco_servidor = socket.gethostbyname(socket.gethostname())
+
         # cria e configura socket
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # endereço ip 'localhost' e porta 4900
         self.socket.bind((endereco_servidor, porta_servidor))
         # sem conexões simultâneas, servidor simples e humilde que aceita apenas um única conexão
         self.socket.listen(max_conexoes)
-        #print(socket.gethostbyname(socket.gethostname())) so pra pegar ip
         self.loopServidor()
         
     def loopServidor(self):
