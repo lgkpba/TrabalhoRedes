@@ -67,8 +67,8 @@ class Servidor:
             # force_delay = 12
             # time.sleep(force_delay)  # testar o que acontece se a resposta atrasar
 
-            socketParaCliente.send(respBytes)  # envia resposta já em bytes
-            socketParaCliente.send(respBytes) #envia a resposta mais uma vez, para testes
+            socketParaCliente.send(respBytes) # envia resposta já em bytes
+            socketParaCliente.send(respBytes) # envia a resposta mais uma vez, para testes
             socketParaCliente.send(respFalsa) # envia resposta falsa para testes
 
             # break  # !!!!!! Servidor temrmina após enviar resposta, arrumar dps
@@ -89,7 +89,9 @@ class Servidor:
         resp = {
                "chamada": f"{nome}({param})",
                
-                "retorno": rtrn
+                "retorno": rtrn,
+
+                "fim": "///"
                }
         print(resp)
         return json.dumps(resp)  # retorna resposta já convertida em json

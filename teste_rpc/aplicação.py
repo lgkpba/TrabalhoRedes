@@ -69,8 +69,7 @@ def sen(x: float) -> float:
         tentativas += 1
         try:
             socketCliente.send(rqstBytes)  # envia requisição
-            respBytes = socketCliente.recv(256).decode(
-                "utf-8")  # recebe resposta e converte
+            respBytes = socketCliente.recv(256).decode("utf-8")  # recebe resposta e converte
             resp = json.loads(respBytes)["retorno"]  # pega retorno da funcao
             if (resp is not None):
                 break
@@ -78,7 +77,10 @@ def sen(x: float) -> float:
             pass
         time.sleep(1)
 
-    socketCliente.close()
+    fim = json.loads(respBytes)["fim"]
+    
+    if(fim == "///"):
+        socketCliente.close()
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if (resp is not None):
         return resp
@@ -115,8 +117,12 @@ def cos(x: float) -> float:
         except TimeoutError as e:  # sem resposta
             pass
         time.sleep(1)
+    
+    fim = json.loads(respBytes)["fim"]
+    
+    if(fim == "///"):
+        socketCliente.close()
 
-    socketCliente.close()
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if (resp is not None):
         return resp
@@ -153,7 +159,11 @@ def tan(x: float) -> float:
         except TimeoutError:  # sem resposta
             pass
         time.sleep(1)
-    socketCliente.close()
+
+    fim = json.loads(respBytes)["fim"]
+    
+    if(fim == "///"):
+        socketCliente.close()
     # print(tentativas)   #mosta o numero de tentativas que foram feitas. ta aqui so pra teste
     if (resp is not None):
         return resp
