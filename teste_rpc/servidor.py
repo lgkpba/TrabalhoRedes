@@ -70,8 +70,7 @@ class Servidor:
             socketParaCliente.send(respBytes)  # envia resposta já em bytes
             
             #break  # !!!!!! Servidor temrmina após enviar resposta, arrumar dps
-            time.sleep(1)
-            socketParaCliente.send(respBytes)
+
 
 
     def handler(self, rqst):
